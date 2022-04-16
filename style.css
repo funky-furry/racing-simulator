@@ -15,7 +15,6 @@ canvas {
 
 .gameTitle{
   width: 75%;
-  height: 80px;
 }
 
 .greeting{
@@ -34,7 +33,7 @@ canvas {
   background-color:transparent;
   font-size: 20px;
   outline:none;
-  color:white;
+  color:rgb(255, 255, 255);
   font-family: vollkorn;
   text-align: center;
 }
