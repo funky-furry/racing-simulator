@@ -10,7 +10,7 @@
     <script src="./lib/p5.play.js"></script>
 
     <link rel="stylesheet" href="style.css" />
-    
+
     <script src="./js/Game.js"></script>
     <script src="./js/Form.js"></script>
     <script src="./js/Player.js"></script>
@@ -18,13 +18,20 @@
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
     <!-- ADICIONAR CÓDIGO Firebase SDK ABAIXO -->
     <script>
-     
+      const firebaseConfig = {
+        apiKey: "AIzaSyB1Gl1W99RcJJNnETF5bQAnbkBNljzSsC8",
+        authDomain: "racing-simulator-7c19b.firebaseapp.com",
+        databaseURL:
+          "https://racing-simulator-7c19b-default-rtdb.firebaseio.com",
+        projectId: "racing-simulator-7c19b",
+        storageBucket: "racing-simulator-7c19b.appspot.com",
+        messagingSenderId: "348286524567",
+        appId: "1:348286524567:web:d09332a7a6878d64685dd2",
+      };
       firebase.initializeApp(firebaseConfig);
     </script>
-   
   </head>
   <body>
-    
     <script src="./sketch.js"></script>
   </body>
 </html>

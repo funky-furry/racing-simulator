@@ -38,6 +38,11 @@ class Form {
       this.input.hide();
       var message = `Olá, ${this.input.value()} <br> espere o próximo jogador...`;
       this.greeting.html(message);
+      playerCount ++;
+      player.name = this.input.value();
+      player.index = playerCount;
+      player.addPlayer();
+      player.updateCount(playerCount);
     });
   }
 
