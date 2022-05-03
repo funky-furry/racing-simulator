@@ -30,9 +30,31 @@ class Game {
 
     if(players != undefined) {
       image(track, 0, -height*5, width, height*6);
-    }
+      var index = 0;
+      
+      for(var plr in players){
+        var x = players[plr].positionX;
+        var y = height - players[plr].positionY;
 
+        cars[index].position.x = x;
+        cars[index].position.y = y;
+        index = index + 1;
+
+        if(player.index == index) {
+          ellipse(x,y,60,60);
+          camera.position.y = cars[index - 1].position.y;
+        }
+      }
+    }
+    this.playerControl();
     drawSprites();
+  }
+
+  playerControl(){
+    if(keyIsDown(38)){
+      player.positionY += 10;
+      player.update();
+    }
   }
 
   update(state){

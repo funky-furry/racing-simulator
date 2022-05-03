@@ -38,6 +38,27 @@ class Player {
       playerCount: number
     });
   }
+  
+  update(){
+    var ref = "players/player"+this.index;
+    database.ref(ref).update({
+      positionX: this.positionX,
+      positionY: this.positionY,
+    });
+  }
+  
+  getDistance(){
+    var playersRef = database.ref("players/player"+this.index);
+    
+    playersRef.on(
+      "value", function (data){
+        var data = data.val();
+        console.log(data);
+        this.positionX = data.positionX;
+        this.positionY = data.positionY;
+      }
+    )
+  }
 
   static getInfosPlayer() {
     var playersRef = database.ref("players");
