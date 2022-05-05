@@ -1,5 +1,8 @@
 class Game {
-  constructor() {}
+  constructor() {
+    this.resetTitle = createElement("h2");
+    this.resetButton = createButton("");
+  }
 
   start() {
     form = new Form();
@@ -22,11 +25,17 @@ class Game {
     form.hide();
     form.titleImg.position(width/2 - 150, 50);
     form.titleImg.class("gameTitleAfterEffect");
+    this.resetTitle.position(width/2 + 350, 40);
+    this.resetTitle.html("reiniciar corrida");
+    this.resetTitle.class("resetTitle");
+    this.resetButton.position(width/2 + 425, 100);
+    this.resetButton.class("resetButton");
   }
 
   play() {
     Player.getInfosPlayer();
     this.handleElements();
+    this.handleResetButton();
 
     if(players != undefined) {
       image(track, 0, -height*5, width, height*6);
@@ -41,6 +50,7 @@ class Game {
         index = index + 1;
 
         if(player.index == index) {
+          fill("red");
           ellipse(x,y,60,60);
           camera.position.y = cars[index - 1].position.y;
         }
@@ -53,6 +63,14 @@ class Game {
   playerControl(){
     if(keyIsDown(38)){
       player.positionY += 10;
+      player.update();
+    }
+    if(keyIsDown(37)){
+      player.positionX -= 10;
+      player.update();
+    }
+    if(keyIsDown(39)){
+      player.positionX += 10;
       player.update();
     }
   }
@@ -68,5 +86,12 @@ class Game {
     gameStateRef.on('value', function (data) {
       gameState = data.val();
     })
+  }
+
+  handleResetButton() {
+    this.resetButton.mousePressed(function(){
+      database.ref("/").set({playerCount: 0, gameState: 0, players: {}})
+      window.location.reload();
+    });
   }
 }
