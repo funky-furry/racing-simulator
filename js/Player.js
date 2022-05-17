@@ -50,6 +50,8 @@ class Player {
     database.ref(ref).update({
       positionX: this.positionX,
       positionY: this.positionY,
+      score: this.score,
+      fuel: this.fuel,
     });
   }
   

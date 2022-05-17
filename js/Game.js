@@ -7,6 +7,25 @@ class Game {
     this.leader1 = createElement('h2');
     this.leader2 = createElement('h2');
   }
+
+  addSprites(groupGame, numSprites, spriteImage, scale, positions = []) {
+    for (var i = 0; i < numSprites; i ++) {
+      var positionX;
+      var positionY;
+      if(positions > 0) {
+        // obstáculos
+      } else {
+        positionX = Math.round(random(width /2 + 150, width /2 - 150));
+        positionY = Math.round(random(-height * 4.5, height - 400 ));
+      }
+  
+      var sprite = createSprite(positionX, positionY);
+      sprite.addImage(spriteImage);
+      sprite.scale = scale;
+      groupGame.add(sprite);
+    }
+  }
+
   showLeaderboard() {
     var leader1, leader2;
     var player = Object.values(players);
@@ -65,8 +84,29 @@ class Game {
     car2.scale = 0.07;
 
     cars = [car1, car2];
+    coinGroup = new Group();
+    gasGroup = new Group();
+    this.addSprites(coinGroup, 18, coin, 0.09);
+    this.addSprites(gasGroup,10,gas,0.02);
+  }
+  
+  handleFuel(index) {
+    // callback 
+    cars[index].overlap(gasGroup, (car, gas) => {
+      player.fuel += 20;
+      player.update();
+      gas.remove();
+    });
   }
 
+  handleCoin(index) {
+    // callback 
+    cars[index].overlap(coinGroup, (car, coin) => {
+      player.score += 5;
+      player.update();
+      coin.remove();
+    });
+  }
   handleElements() {
     form.hide();
     form.titleImg.position(width/2 - 150, 50);
@@ -106,10 +146,12 @@ class Game {
         cars[index].position.x = x;
         cars[index].position.y = y;
         index = index + 1;
-
+        // verificando se é o nosso jogador
         if(player.index == index) {
           fill("red");
           ellipse(x,y,60,60);
+          this.handleCoin(index - 1);
+          this.handleFuel(index - 1);
           camera.position.y = cars[index - 1].position.y;
         }
       }

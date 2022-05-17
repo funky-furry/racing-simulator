@@ -8,12 +8,18 @@ var players;
 var track; 
 var gameState;
 var car1, car2, cars;
+var coin;
+var gas;
+var coinGroup;
+var gasGroup;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
   track = loadImage("./assets/track.jpg");
   car1Img = loadImage('./assets/car1.png');
   car2Img = loadImage('./assets/car2.png');
+  coin = loadImage("./assets/goldCoin.png");
+  gas = loadImage("./assets/fuel.png");
 }
 
 function setup() {
