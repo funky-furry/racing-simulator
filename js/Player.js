@@ -4,6 +4,10 @@ class Player {
     this.index = null;
     this.positionX = 0;
     this.positionY = 0;
+    this.rank = 0;
+    this.fuel = 185;
+    this.life = 185;
+    this.score = 0;
   }
   /** players {
      *  player1 {
@@ -11,7 +15,7 @@ class Player {
      * }
      *  player2 {}
    * } */
-  addPlayer() {
+   addPlayer() {
     var playerRef = "players/player"+ player.index;
     if(player.index == 1) {
       this.positionX = width/2 - 100;
@@ -23,6 +27,8 @@ class Player {
       name: this.name,
       positionX: this.positionX,
       positionY:  this.positionY,
+      rank: this.rank,
+      score: this.score
     });
   }
 
@@ -51,7 +57,7 @@ class Player {
     var playersRef = database.ref("players/player"+this.index);
     
     playersRef.on(
-      "value", function (data){
+      "value", (data) => {
         var data = data.val();
         console.log(data);
         this.positionX = data.positionX;
@@ -62,7 +68,7 @@ class Player {
 
   static getInfosPlayer() {
     var playersRef = database.ref("players");
-    playersRef.on("value", function (data) {
+    playersRef.on("value", (data) => {
       players = data.val();
     });
   }

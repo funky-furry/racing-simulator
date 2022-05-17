@@ -2,6 +2,52 @@ class Game {
   constructor() {
     this.resetTitle = createElement("h2");
     this.resetButton = createButton("");
+
+    this.leaderTitle = createElement('h2');
+    this.leader1 = createElement('h2');
+    this.leader2 = createElement('h2');
+  }
+  showLeaderboard() {
+    var leader1, leader2;
+    var player = Object.values(players);
+    if (
+      (player[0].rank === 0 && player[1].rank === 0) ||
+      player[0].rank === 1
+    ) {
+      // &emsp;    Essa etiqueta é usada para exibir quatro espaços.
+      leader1 =
+        player[0].rank +
+        "&emsp;" +
+        player[0].name +
+        "&emsp;" +
+        player[0].score;
+
+      leader2 =
+        player[1].rank +
+        "&emsp;" +
+        player[1].name +
+        "&emsp;" +
+        player[1].score;
+    }
+
+    if (player[1].rank === 1) {
+      leader1 =
+        player[1].rank +
+        "&emsp;" +
+        player[1].name +
+        "&emsp;" +
+        player[1].score;
+
+      leader2 =
+        player[0].rank +
+        "&emsp;" +
+        player[0].name +
+        "&emsp;" +
+        player[0].score;
+    }
+
+    this.leader1.html(leader1);
+    this.leader2.html(leader2);
   }
 
   start() {
@@ -30,6 +76,17 @@ class Game {
     this.resetTitle.class("resetTitle");
     this.resetButton.position(width/2 + 425, 100);
     this.resetButton.class("resetButton");
+
+    this.leaderTitle.position(width/18, 40);
+    this.leaderTitle.html('placar');
+    this.leaderTitle.class('resetTitle');
+
+    this.leader1.position(width/18, 80);
+    this.leader1.html('leader1');
+    this.leader1.class('leadersText');
+    this.leader2.position(width/18, 130);
+    this.leader2.html('leader2');
+    this.leader2.class('leadersText');
   }
 
   play() {
@@ -38,6 +95,7 @@ class Game {
     this.handleResetButton();
 
     if(players != undefined) {
+      this.showLeaderboard();
       image(track, 0, -height*5, width, height*6);
       var index = 0;
       
