@@ -12,6 +12,8 @@ var coin;
 var gas;
 var coinGroup;
 var gasGroup;
+var junkGroup;
+var junk, junk2;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -20,6 +22,8 @@ function preload() {
   car2Img = loadImage('./assets/car2.png');
   coin = loadImage("./assets/goldCoin.png");
   gas = loadImage("./assets/fuel.png");
+  junk = loadImage("./assets/obstacle1.png");
+  junk2 = loadImage("./assets/obstacle2.png");
 }
 
 function setup() {

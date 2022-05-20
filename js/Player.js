@@ -28,7 +28,8 @@ class Player {
       positionX: this.positionX,
       positionY:  this.positionY,
       rank: this.rank,
-      score: this.score
+      score: this.score,
+      fuel: this.fuel,
     });
   }
 
@@ -52,6 +53,7 @@ class Player {
       positionY: this.positionY,
       score: this.score,
       fuel: this.fuel,
+      rank: this.rank,
     });
   }
   
@@ -61,7 +63,7 @@ class Player {
     playersRef.on(
       "value", (data) => {
         var data = data.val();
-        console.log(data);
+        // console.log(data);
         this.positionX = data.positionX;
         this.positionY = data.positionY;
       }
@@ -73,6 +75,21 @@ class Player {
     playersRef.on("value", (data) => {
       players = data.val();
     });
+  }
+
+  getCarsEnd() {
+    database.ref("carsEnd").on("value", (data) => {
+      this.rank = data.val();
+    });
+  }
+
+  // funções estáticas não precisam que a gente crie um objeto da classe (instanciar a classe) para chamá-la
+  // new Player();
+  // Player.updateCarsEnd();
+  static updateCarsEnd(number) {
+    database.ref("/").update({
+      carsEnd: number
+    })
   }
 
  // Math.round() 
