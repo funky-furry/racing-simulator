@@ -8,6 +8,8 @@ class Game {
     this.leader2 = createElement('h2');
 
     this.playerMoving = false;
+    this.leftKeyActive = false;
+    this.blast = false;
   }
 
   addSprites(groupGame, numSprites, spriteImage, scale, positions = []) {
@@ -85,10 +87,12 @@ class Game {
     console.log(player)
     car1 = createSprite(width/2-50, height-100);
     car1.addImage(car1Img);
+    car1.addImage("blast", blast);
     car1.scale = 0.07;
     
     car2 = createSprite(width/2+100, height-100);
     car2.addImage(car2Img);
+    car2.addImage("blast", blast);
     car2.scale = 0.07;
 
     cars = [car1, car2];
@@ -120,7 +124,7 @@ class Game {
   handleFuel(index) {
     // callback 
     cars[index].overlap(gasGroup, (car, gas) => {
-      player.fuel += 20;
+      player.fuel = 185;
       player.update();
       gas.remove();
     });
@@ -187,22 +191,33 @@ class Game {
       image(track, 0, -height*5, width, height*6);
       this.showLeaderboard();
       this.showGasBar();
+      this.showLifeBar();
 
       var index = 0;
       
       for(var plr in players){
         var x = players[plr].positionX;
         var y = height - players[plr].positionY;
-
+        var lyfe = players[plr].life;
         cars[index].position.x = x;
         cars[index].position.y = y;
+        if (lyfe <= 0){
+          cars[index].changeImage("blast");
+          cars[index].scale = 0.3;
+        }
         index = index + 1;
         // verificando se é o nosso jogador
         if(player.index == index) {
+          if(player.life <= 0){
+            // gameState = 2;
+            this.blast = true;
+
+          }
           fill("red");
           ellipse(x,y,60,60);
           this.handleCoin(index - 1);
           this.handleFuel(index - 1);
+          this.handleObstacleCollision(index - 1);
           camera.position.y = cars[index - 1].position.y;
         }
       }
@@ -211,19 +226,39 @@ class Game {
     drawSprites();
   }
 
+  handleObstacleCollision(index){
+    if(cars[index].collide(junkGroup)){
+      if(player.life > 0){
+        // boolean 
+        if(this.leftKeyActive){
+          player.positionX += 100;
+        }else{
+          player.positionX -= 100;
+        }
+        player.life -= 185/4;
+        player.update();
+      }
+    }
+  }
+
   playerControl(){
-    if(keyIsDown(38)){
-      player.positionY += 10;
-      player.update();
-      this.playerMoving = true;
-    }
-    if(keyIsDown(37)){
-      player.positionX -= 10;
-      player.update();
-    }
-    if(keyIsDown(39)){
-      player.positionX += 10;
-      player.update();
+    if(!this.blast) {
+      if(keyIsDown(38)){
+        player.positionY += 10;
+        player.update();
+        this.playerMoving = true;
+      }
+      if(keyIsDown(37)){
+        player.positionX -= 10;
+        player.update();
+        this.leftKeyActive = true;
+      }
+      if(keyIsDown(39)){
+        player.positionX += 10;
+        player.update();
+        this.leftKeyActive = false;
+        
+      }
     }
   }
 
@@ -261,14 +296,36 @@ class Game {
     pop();
     image(
       gas,
-      player.positionX - 150,
+      player.positionX - 160,
       height - player.positionY - 100,
       20,
       20
     );
   }
 
+  showLifeBar() {
+    push();
+    fill("white");
+    rect(player.positionX - 130, height - player.positionY - 130, 185, 20);
+    fill("red");
+    rect(
+      player.positionX - 130,
+      height - player.positionY - 130,
+      player.life,
+      20
+    );
+    pop();
+    image(
+      life,
+      player.positionX - 160,
+      height - player.positionY - 130,
+      20,
+      20
+    );
+  }
+
   gameOver() {
+    // sweetalert
     swal({
       title: `fim de jogo!`,
       text: "Oops! Você perdeu a corrida!",

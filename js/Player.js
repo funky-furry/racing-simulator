@@ -54,6 +54,7 @@ class Player {
       score: this.score,
       fuel: this.fuel,
       rank: this.rank,
+      life: this.life,
     });
   }
   

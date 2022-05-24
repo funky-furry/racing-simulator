@@ -9,7 +9,8 @@ var track;
 var gameState;
 var car1, car2, cars;
 var coin;
-var gas;
+var gas, life;
+var blast;
 var coinGroup;
 var gasGroup;
 var junkGroup;
@@ -22,8 +23,10 @@ function preload() {
   car2Img = loadImage('./assets/car2.png');
   coin = loadImage("./assets/goldCoin.png");
   gas = loadImage("./assets/fuel.png");
+  life = loadImage("./assets/life.png");
   junk = loadImage("./assets/obstacle1.png");
   junk2 = loadImage("./assets/obstacle2.png");
+  blast = loadImage("./assets/blast.png");
 }
 
 function setup() {
