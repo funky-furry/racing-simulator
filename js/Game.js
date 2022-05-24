@@ -6,6 +6,8 @@ class Game {
     this.leaderTitle = createElement('h2');
     this.leader1 = createElement('h2');
     this.leader2 = createElement('h2');
+
+    this.playerMoving = false;
   }
 
   addSprites(groupGame, numSprites, spriteImage, scale, positions = []) {
@@ -123,11 +125,15 @@ class Game {
       gas.remove();
     });
 
-    // player.fuel -= 1;
-    
-    // if( player.fuel <= 0) {
-    //   gameState = 2;
-    // }
+    if (this.playerMoving == true) {
+      player.fuel -= 1;
+      this.playerMoving = false;
+    }
+
+    if (player.fuel <= 0) {
+      gameState = 2;
+      this.gameOver();
+    }
     
   }
 
@@ -139,6 +145,7 @@ class Game {
       coin.remove();
     });
   }
+
   handleElements() {
     form.hide();
     form.titleImg.position(width/2 - 150, 50);
@@ -177,9 +184,10 @@ class Game {
     }
 
     if(players != undefined) {
+      image(track, 0, -height*5, width, height*6);
       this.showLeaderboard();
       this.showGasBar();
-      image(track, 0, -height*5, width, height*6);
+
       var index = 0;
       
       for(var plr in players){
@@ -207,6 +215,7 @@ class Game {
     if(keyIsDown(38)){
       player.positionY += 10;
       player.update();
+      this.playerMoving = true;
     }
     if(keyIsDown(37)){
       player.positionX -= 10;
@@ -251,11 +260,22 @@ class Game {
     );
     pop();
     image(
-      fuelImg,
+      gas,
       player.positionX - 150,
       height - player.positionY - 100,
       20,
       20
     );
+  }
+
+  gameOver() {
+    swal({
+      title: `fim de jogo!`,
+      text: "Oops! Você perdeu a corrida!",
+      imageUrl:
+        "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "obrigado por jogar!",
+    });
   }
 }
